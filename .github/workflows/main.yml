@@ -58,6 +58,13 @@ jobs:
 
       - name: Deploy with Zappa
         run: |
+          # Crear y activar un entorno virtual
+          python -m venv venv
+          source venv/bin/activate
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install zappa
+
           # Si es la primera vez, usa 'zappa deploy dev'
           # Para actualizaciones, usa 'zappa update dev'
           zappa update dev

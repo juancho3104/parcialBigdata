@@ -56,7 +56,7 @@ jobs:
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
           aws-region: us-east-1
 
-      - name: Deploy with Zappa
+      - name: Deploy with Zappa!
         run: |
           # Crear y activar un entorno virtual
           python -m venv venv

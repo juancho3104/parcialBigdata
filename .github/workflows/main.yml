@@ -57,5 +57,4 @@ jobs:
 
       - name: Deploy with Zappa
         run: zappa update dev
-        # Si es la primera vez, usa `zappa deploy dev`
-        # Luego, para actualizaciones: `zappa update dev`
+        

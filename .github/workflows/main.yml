@@ -57,5 +57,5 @@ jobs:
           aws-region: us-east-1
 
       - name: Deploy with Zappa
-        run: aws s3 ls
+        run: zappa update dev
         

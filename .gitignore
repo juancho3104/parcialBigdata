@@ -1,23 +1,27 @@
-# Excluir carpetas generadas
-__pycache__/
-*.py[cod]
-
-# Excluir entornos virtuales
+# Entorno virtual
 env/
 venv/
-ENV/
+.env/
+.venv/
 
-# Excluir archivos de Cloud9
+# Caché de Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Archivos de configuración de Cloud9 y otros IDEs
 .c9/
+.idea/
+.vscode/
 
-# Otros archivos de log o temporales
+# Archivos de logs y compilación
 *.log
-tmp/
-*.tmp
+build/
+dist/
+*.egg-info/
 
-# Configuración específica de Zappa
-.zappa/
-zappa_settings.json
-
-# Archivos de credenciales (¡Nunca subas credenciales!)
-.aws/
+# Archivos temporales de sistema
+*.swp
+*.swo
+.DS_Store
+Thumbs.db

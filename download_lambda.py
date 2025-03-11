@@ -1,6 +1,4 @@
 import os
-import json
-import re
 import requests
 import boto3
 import csv

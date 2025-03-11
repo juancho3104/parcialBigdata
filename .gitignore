@@ -1,0 +1,16 @@
+# Excluir carpetas generadas
+__pycache__/
+*.py[cod]
+
+# Excluir entornos virtuales
+env/
+venv/
+ENV/
+
+# Excluir archivos de Cloud9
+.c9/
+
+# Otros archivos de log o temporales
+*.log
+tmp/
+*.tmp

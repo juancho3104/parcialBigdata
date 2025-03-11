@@ -1,0 +1,33 @@
+{
+  "dev": {
+    "app_function": "download_lambda.lambda_handler",
+    "aws_region": "us-east-1",
+    "profile_name": "default",
+    "project_name": "parcialBigdata",
+    "runtime": "python3.10",
+    "s3_bucket": "zappa-3vw0whhzw",
+    "keep_warm": false,
+    "apigateway_enabled": false,
+    "manage_roles": false,
+    "role_name": "LabRole",
+    "environment_variables": {
+      "S3_BUCKET": "parcials",
+      "DEST_BUCKET": "parcials"
+    },
+    "events": [
+      {
+        "function": "download_lambda.lambda_handler",
+        "expression": "cron(0 9 ? * MON *)"
+      },
+      {
+        "function": "download_lambda.lambda_handler",
+        "event_source": {
+          "arn": "arn:aws:s3:::parcials",
+          "events": [
+            "s3:ObjectCreated:*"
+          ]
+        }
+      }
+    ]
+  }
+}

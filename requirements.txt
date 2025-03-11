@@ -10,3 +10,6 @@ flake8==6.0.0
 
 # Para pruebas unitarias
 pytest==7.4.0
+
+# Para despliegue con Zappa
+zappa==0.54.2

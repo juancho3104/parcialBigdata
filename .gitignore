@@ -15,28 +15,9 @@ ENV/
 tmp/
 *.tmp
 
-# Archivos y carpetas de entornos virtuales
-env/
-venv/
-*.pyc
-_pycache_/
-*.pyo
-*.pyd
-
 # Configuración específica de Zappa
 .zappa/
 zappa_settings.json
-
-# Archivos de dependencias y paquetes
-Pipfile
-Pipfile.lock
-poetry.lock
-
-# Archivos de logs y caché
-logs/
-*.log
-*.cache
-*.DS_Store
 
 # Archivos de credenciales (¡Nunca subas credenciales!)
 .aws/

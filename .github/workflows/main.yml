@@ -10,7 +10,7 @@ jobs:
   lint_and_test:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out code
+      - name: Checkout repository
         uses: actions/checkout@v2
 
       - name: Set up Python
@@ -18,16 +18,12 @@ jobs:
         with:
           python-version: "3.9"
 
-      - name: Install dependencies
+      - name: Install dependencies and run tests
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-
-      - name: Run flake8 (code style)
-        run: flake8 .
-
-      - name: Run tests with pytest
-        run: pytest --maxfail=1 --disable-warnings
+          flake8 .
+          pytest --maxfail=1 --disable-warnings
 
   deploy:
     if: github.event_name == 'push'
@@ -37,10 +33,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Set up Python
-        uses: actions/setup-python@v2
+      # Primero configuramos las credenciales AWS para que Zappa pueda encontrar las credenciales
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
         with:
-          python-version: "3.9"
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}  # Solo si usas credenciales temporales
+          aws-region: us-east-1
 
       - name: Create and activate virtual environment, install dependencies and deploy with Zappa
         run: |
@@ -48,15 +48,6 @@ jobs:
           source venv/bin/activate
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          # Asegúrate de que Zappa esté instalado (o incluido en requirements.txt)
+          # Asegúrate de que Zappa esté instalado (puedes incluirlo en requirements.txt o instalarlo aquí)
           pip install zappa
-          # Configura las credenciales AWS (se realizan con la acción aws-actions/configure-aws-credentials)
           zappa update dev
-
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}  # Si usas credenciales temporales
-          aws-region: us-east-1

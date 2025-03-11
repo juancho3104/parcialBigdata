@@ -9,7 +9,6 @@
             "s3transfer",
             "concurrent"
         ],
-    "profile_name": "default",
     "project_name": "parcialBigdata",
     "runtime": "python3.10",
     "s3_bucket": "zappa-3vw0whhzw",

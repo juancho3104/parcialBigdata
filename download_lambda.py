@@ -63,7 +63,7 @@ def download_handler(event, context):
 def process_handler(event, context):
     """
     Procesa el HTML descargado de S3 realizando scraping de cada listado.
-    Extrae los siguientes datos:
+    Extrae:
       - Valor: precio (extraído de <span class="price__actual">)
       - Barrio: ubicación (extraído de
         <div class="listing-card__location__geo">)
@@ -73,7 +73,7 @@ def process_handler(event, context):
         <p data-test="bathrooms">)
       - mts2: área en metros cuadrados (del atributo "content" en
         <p data-test="floor-area">)
-    La fila CSV tendrá las columnas:
+    El CSV tendrá las columnas:
       FechaDescarga, Barrio, Valor, NumHabitaciones, NumBanos, mts2
     """
     # 1. Obtener el registro del evento S3
@@ -98,37 +98,34 @@ def process_handler(event, context):
 
     # 4. Iterar sobre cada listado
     for listing in listings:
-        # Precio
         price_elem = listing.find("span", class_="price__actual")
         valor = price_elem.get_text(strip=True) if price_elem else "N/A"
 
-        # Barrio / Ubicación
         loc_elem = listing.find("div", class_="listing-card__location__geo")
         barrio = loc_elem.get_text(strip=True) if loc_elem else "N/A"
 
-        # Número de habitaciones
         bed_elem = listing.find("p", {"data-test": "bedrooms"})
-        num_habitaciones = (bed_elem.get("content", "N/A")
-                            if bed_elem else "N/A")
+        num_habitaciones = (
+            bed_elem.get("content", "N/A") if bed_elem else "N/A"
+        )
 
-        # Número de baños
         bath_elem = listing.find("p", {"data-test": "bathrooms"})
         num_banos = bath_elem.get("content", "N/A") if bath_elem else "N/A"
 
-        # Área en metros cuadrados
         area_elem = listing.find("p", {"data-test": "floor-area"})
         mts2 = area_elem.get("content", "N/A") if area_elem else "N/A"
 
         rows.append([
-            fecha_descarga, barrio, valor, num_habitaciones, num_banos, mts2
+            fecha_descarga, barrio, valor, num_habitaciones,
+            num_banos, mts2
         ])
 
     # 5. Crear el CSV en memoria usando StringIO
     csv_buffer = StringIO()
     writer = csv.writer(csv_buffer)
     writer.writerow([
-        "FechaDescarga", "Barrio", "Valor",
-        "NumHabitaciones", "NumBanos", "mts2"
+        "FechaDescarga", "Barrio", "Valor", "NumHabitaciones",
+        "NumBanos", "mts2"
     ])
     writer.writerows(rows)
 
@@ -148,9 +145,9 @@ def process_handler(event, context):
 def lambda_handler(event, context):
     """
     Función handler principal que decide qué función ejecutar según el evento.
-    Si el evento contiene registros S3 (con la clave "Records" y subobjeto "s3"),
-    se ejecuta process_handler para procesar el HTML y generar el CSV; de lo
-    contrario, se ejecuta download_handler para descargar el HTML.
+    Si el evento tiene registros S3 (clave "Records" con "s3"),
+    se ejecuta process_handler; de lo contrario, se ejecuta
+    download_handler.
     """
     if ("Records" in event and event["Records"] and
             "s3" in event["Records"][0]):

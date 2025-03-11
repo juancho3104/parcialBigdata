@@ -13,7 +13,6 @@ constantly==15.1.0
 cryptography==3.4.8
 dbus-python==1.2.18
 distro==1.7.0
-ec2-hibinit-agent==1.0.0
 git-remote-codecommit==1.17
 hibagent==1.0.1
 httplib2==0.20.2
